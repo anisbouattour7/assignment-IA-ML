@@ -179,8 +179,131 @@ L'interface n'appelle que le service `ExpertSystem` ; les moteurs ne dépendent 
 
 ## 11. Module 2 — Algorithmes de recherche
 
-*À venir : construction d'un graphe orienté pondéré, recherche non informée et informée, visualisation pas à pas.*
+Ce module permet de construire un **graphe orienté et pondéré**, de définir un état initial et un état objectif, puis d'exécuter différents algorithmes de recherche dans un espace d'états.
 
-## 12. Démonstration
+Il regroupe deux catégories d'algorithmes :
 
-Vidéo de démonstration : *(lien à ajouter)*
+| **Catégorie** | **Algorithmes** |
+|---|---|
+| Recherche non informée | BFS, DFS, UCS |
+| Recherche informée | Gloutonne (Greedy Best-First Search), A* |
+
+### Fonctionnalités
+
+- Création et suppression de sommets représentant les différents états du problème.
+- Ajout et suppression d'arcs orientés entre les sommets.
+- Association d'un coût numérique à chaque arc.
+- Définition du sommet initial et du sommet objectif.
+- Saisie des valeurs heuristiques `h(n)` pour les algorithmes de recherche informée.
+- Choix de la catégorie de recherche et de l'algorithme à exécuter.
+- Visualisation du graphe avec distinction entre les sommets explorés, les sommets en attente et le chemin final.
+- Affichage du déroulement de la recherche étape par étape.
+- Présentation du chemin trouvé et de son coût total.
+- Gestion des cas où aucun chemin n'existe entre le départ et l'objectif.
+
+### Algorithmes implémentés
+
+#### A. Recherche non informée
+
+Ces algorithmes explorent le graphe sans utiliser d'heuristique pour guider la recherche.
+
+| **Algorithme** | **Principe** | **Structure utilisée** |
+|---|---|---|
+| **BFS** (Breadth-First Search) | Explore les sommets niveau par niveau, en commençant par les plus proches du sommet initial. | File FIFO |
+| **DFS** (Depth-First Search) | Explore une branche aussi profondément que possible avant de revenir en arrière. | Pile LIFO |
+| **UCS** (Uniform-Cost Search) | Explore en priorité le sommet ayant le coût cumulé le plus faible depuis le départ. | File de priorité |
+
+#### B. Recherche informée
+
+Ces algorithmes utilisent une fonction heuristique `h(n)` pour orienter l'exploration vers l'objectif.
+
+| **Algorithme** | **Principe** | **Fonction de priorité** |
+|---|---|---|
+| **Gloutonne** (Greedy Best-First Search) | Choisit le sommet estimé le plus proche de l'objectif selon l'heuristique. | `h(n)` |
+| **A*** (A-Star) | Combine le coût déjà parcouru et l'estimation du coût restant pour choisir le prochain sommet. | `f(n) = g(n) + h(n)` |
+
+Avec :
+
+- `g(n)` : coût réel du chemin entre le sommet initial et le sommet `n`.
+- `h(n)` : estimation du coût restant entre `n` et l'objectif.
+- `f(n)` : estimation du coût total d'un chemin passant par `n`.
+
+**Remarque :** UCS et A* prennent en compte les coûts des arcs. BFS et DFS ne les utilisent pas pour guider leur exploration. La recherche gloutonne utilise l'heuristique, mais ne tient pas compte du coût déjà parcouru.
+
+### Déroulement d'une recherche
+
+1. Sur le menu principal, accéder à **Algorithmes de recherche**.
+2. Construire le graphe en ajoutant les sommets et les arcs avec leurs coûts.
+3. Sélectionner le sommet initial et le sommet objectif.
+4. Choisir la catégorie de recherche :
+   - Recherche non informée : BFS, DFS ou UCS.
+   - Recherche informée : Gloutonne ou A*.
+5. Pour une recherche informée, renseigner les valeurs heuristiques des sommets.
+6. Cliquer sur **Lancer la recherche**.
+7. Consulter les étapes de l'exploration et suivre l'évolution de la frontière.
+8. Consulter le résultat final : chemin trouvé, coût total et sommets explorés.
+
+### Exemple de graphe
+
+Le graphe suivant illustre un exemple de recherche entre le sommet initial `A` et le sommet objectif `G`.
+
+| **Arc** | **Coût** |
+|---|---:|
+| A → B | 4 |
+| A → C | 2 |
+| B → D | 5 |
+| B → G | 12 |
+| C → D | 8 |
+| C → E | 3 |
+| E → D | 2 |
+| D → G | 3 |
+| E → G | 7 |
+
+Pour les algorithmes informés, des valeurs heuristiques sont associées aux sommets afin d'estimer leur distance restante jusqu'à l'objectif.
+
+### Résultats et visualisation
+
+À la fin de l'exécution, l'application présente notamment :
+
+- Le statut de la recherche : chemin trouvé ou aucun chemin trouvé.
+- Le chemin obtenu entre le sommet initial et l'objectif.
+- Le coût total du chemin.
+- Les sommets développés pendant l'exploration.
+- La trace détaillée des étapes de recherche.
+- Une représentation graphique du graphe mettant en évidence le chemin final.
+
+### Choix de conception
+
+- **Séparation de la logique métier et de l'interface** : les algorithmes sont développés indépendamment de Streamlit et peuvent être testés séparément.
+- **Représentation du graphe** : utilisation de `NetworkX` pour gérer les sommets, les arcs orientés et leurs poids.
+- **Visualisation** : utilisation de `Matplotlib` pour représenter graphiquement le graphe et les résultats de recherche.
+- **Trace structurée** : chaque algorithme produit une trace contenant les sommets examinés, la frontière et les informations nécessaires au suivi de l'exécution.
+- **Reconstruction du chemin** : les prédécesseurs des sommets permettent de reconstruire le chemin final et de calculer son coût.
+- **Gestion des cycles** : des mécanismes de détection des sommets déjà explorés ou de mise à jour des meilleurs coûts évitent les explorations infinies.
+
+### Limites et conditions
+
+- Le graphe utilisé est orienté : un arc `A → B` ne crée pas automatiquement un arc `B → A`.
+- Les coûts des arcs doivent être numériques et non négatifs.
+- Les algorithmes informés nécessitent des valeurs heuristiques valides.
+- BFS garantit un chemin avec un nombre minimal d'arcs, mais pas nécessairement un coût minimal.
+- DFS ne garantit pas un chemin optimal.
+- UCS trouve un chemin de coût minimal lorsque les coûts des arcs sont non négatifs.
+- La recherche gloutonne ne garantit pas l'optimalité.
+- A* garantit l'optimalité sous les conditions appropriées sur l'heuristique, notamment son admissibilité, et avec une implémentation adaptée.
+
+### Tests
+
+Les algorithmes et le modèle du graphe sont testés indépendamment de l'interface avec `pytest`.
+
+Les tests couvrent notamment :
+
+- La création des sommets et des arcs orientés.
+- La validation des coûts et des valeurs heuristiques.
+- Le fonctionnement de BFS et DFS.
+- La recherche du chemin de coût minimal avec UCS.
+- Le fonctionnement de la recherche gloutonne.
+- L'optimalité de A* lorsque les conditions requises sont respectées.
+- La reconstruction du chemin et le calcul de son coût.
+- La gestion des cycles et des graphes sans chemin accessible.
+
