@@ -6,7 +6,7 @@ Application interactive développée en **Python** avec une interface **Streamli
 | Module | État |
 | --- | --- |
 | 1. Systèmes experts (chaînage avant et arrière) | ✅ Terminé |
-| 2. Algorithmes de recherche dans les espaces d'états | 🚧 En cours de développement |
+| 2. Algorithmes de recherche dans les espaces d'états | ✅ Terminé |
 
 **Auteur :** Anis Bouattour
 
