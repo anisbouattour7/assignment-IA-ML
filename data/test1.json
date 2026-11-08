@@ -1,0 +1,48 @@
+{
+  "facts": [
+    "F",
+    "E"
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "conditions": [
+        "A",
+        "B"
+      ],
+      "conclusion": "C"
+    },
+    {
+      "id": "R2",
+      "conditions": [
+        "F",
+        "D"
+      ],
+      "conclusion": "A"
+    },
+    {
+      "id": "R3",
+      "conditions": [
+        "D",
+        "E"
+      ],
+      "conclusion": "B"
+    },
+    {
+      "id": "R4",
+      "conditions": [
+        "B",
+        "D"
+      ],
+      "conclusion": "F"
+    },
+    {
+      "id": "R5",
+      "conditions": [
+        "E",
+        "F"
+      ],
+      "conclusion": "D"
+    }
+  ]
+}

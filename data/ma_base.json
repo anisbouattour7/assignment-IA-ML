@@ -1,0 +1,32 @@
+{
+  "facts": [
+    "ordinateur_ne_demarre_pas",
+    "voyant_alimentation_eteint",
+    "cable_branche"
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "conditions": [
+        "voyant_alimentation_eteint",
+        "cable_branche"
+      ],
+      "conclusion": "probleme_alimentation"
+    },
+    {
+      "id": "R2",
+      "conditions": [
+        "probleme_alimentation"
+      ],
+      "conclusion": "verifier_bloc_alimentation"
+    },
+    {
+      "id": "R3",
+      "conditions": [
+        "ordinateur_ne_demarre_pas",
+        "probleme_alimentation"
+      ],
+      "conclusion": "panne_probable_alimentation"
+    }
+  ]
+}
